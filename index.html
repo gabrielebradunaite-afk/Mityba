@@ -306,6 +306,76 @@ nav {
 .week-section.active { display: block; }
 
 /* RESPONSIVE */
+
+/* MOBILE */
+@media(max-width:480px){
+  nav { padding: 0 12px; height: auto; min-height: 50px; flex-wrap: wrap; gap: 6px; padding-top: 8px; padding-bottom: 8px; }
+  .nav-links { display: flex; flex-wrap: wrap; gap: 2px; order: 2; width: 100%; justify-content: center; }
+  .nav-link { font-size: 12px; padding: 4px 10px; }
+  .logo { font-size: 20px; }
+  .nav-tag { display: none; }
+  .hero { padding: 20px 16px; grid-template-columns: 1fr; gap: 16px; }
+  .hero h1 { font-size: 28px; }
+  .stats { gap: 8px; }
+  .stat { padding: 10px 14px; min-width: 64px; }
+  .stat-n { font-size: 24px; }
+  .tags-row { gap: 4px; }
+  .section { padding: 20px 16px; }
+  .section-title { font-size: 20px; }
+  .week-tabs { gap: 4px; }
+  .wtab { font-size: 11px; padding: 4px 10px; }
+  .menu-grid {
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .menu-grid .mg-head { display: none; }
+  .menu-grid .mg-row-label {
+    background: var(--earth); color: var(--cream);
+    border-radius: 6px; padding: 6px 10px;
+    font-size: 12px; font-weight: 500;
+    margin-top: 8px;
+  }
+  .mg-cell {
+    min-height: 44px; padding: 8px 10px;
+  }
+  .mc-name { font-size: 12px; }
+  .recipes-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .rc-img { height: 60px; font-size: 22px; }
+  .rc-body { padding: 10px 10px; }
+  .rc-name { font-size: 12px; }
+  .rc-ings { display: none; }
+  .tips-grid { grid-template-columns: 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .alco-card { grid-template-columns: 1fr; }
+  .supps-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .diary-grid { grid-template-columns: 1fr; }
+  .modal { padding: 20px 16px; }
+  .section-head { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .hero-sub { font-size: 12px; }
+  .avoid-tag, .ok-tag { font-size: 10px; padding: 2px 8px; }
+  .week-section .menu-grid { gap: 0; }
+}
+@media(max-width:480px){
+  .week-section .menu-grid {
+    display: grid;
+    grid-template-columns: 56px repeat(7, 1fr);
+    gap: 2px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .week-section .menu-grid .mg-head { display: block; }
+  .week-section .menu-grid .mg-row-label {
+    background: var(--warm); color: var(--muted);
+    writing-mode: horizontal-tb;
+    font-size: 9px; padding: 4px 6px;
+  }
+  .week-section .menu-grid .mg-cell {
+    min-height: 52px; padding: 5px 6px;
+  }
+  .week-section .menu-grid .mc-name { font-size: 9px; line-height: 1.2; }
+  .week-section .menu-grid .mc-time { font-size: 8px; }
+  .week-section { overflow-x: auto; }
+}
+
 @media(max-width:700px){
   .hero { grid-template-columns: 1fr; }
   .two-col { grid-template-columns: 1fr; }
