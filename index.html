@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mityba</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F7F4EF;
+  --warm: #EDE8DF;
+  --stone: #C8BFB0;
+  --bark: #8B7355;
+  --earth: #5C4A32;
+  --dark: #2A2118;
+  --sage: #7A8C6E;
+  --sage-light: #EBF0E6;
+  --rust: #B85C3A;
+  --rust-light: #F5EAE4;
+  --gold: #C4963A;
+  --gold-light: #FBF2E3;
+  --text: #2A2118;
+  --muted: #7A6E62;
+  --border: rgba(139,115,85,.15);
+  --radius: 14px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* NAV */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(247,244,239,.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 0 32px; height: 56px;
+}
+.logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 400;
+  letter-spacing: .02em; color: var(--earth);
+}
+.nav-links { display: flex; gap: 4px; }
+.nav-link {
+  font-size: 13px; font-weight: 400;
+  color: var(--muted); padding: 6px 14px;
+  border-radius: 20px; cursor: pointer;
+  transition: all .2s; border: none; background: none;
+  text-decoration: none;
+}
+.nav-link:hover, .nav-link.active {
+  background: var(--warm); color: var(--earth);
+}
+.nav-tag {
+  font-size: 11px; padding: 3px 10px;
+  border-radius: 20px; background: var(--sage-light);
+  color: var(--sage); border: 1px solid rgba(122,140,110,.2);
+}
+
+/* HERO */
+.hero {
+  padding: 48px 32px 32px;
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 24px; align-items: start;
+  border-bottom: 1px solid var(--border);
+}
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 42px; font-weight: 300; line-height: 1.15;
+  color: var(--earth); letter-spacing: -.5px;
+}
+.hero h1 em { font-style: italic; font-weight: 300; }
+.hero-sub {
+  font-size: 13px; color: var(--muted);
+  margin-top: 8px; max-width: 480px; line-height: 1.7;
+}
+.tags-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 16px; }
+.avoid-tag {
+  font-size: 11px; padding: 3px 10px; border-radius: 20px;
+  background: var(--rust-light); color: var(--rust);
+  border: 1px solid rgba(184,92,58,.2);
+}
+.ok-tag {
+  font-size: 11px; padding: 3px 10px; border-radius: 20px;
+  background: var(--sage-light); color: var(--sage);
+  border: 1px solid rgba(122,140,110,.2);
+}
+.stats { display: flex; gap: 16px; flex-shrink: 0; }
+.stat {
+  background: var(--warm); border-radius: var(--radius);
+  padding: 16px 20px; text-align: center; min-width: 80px;
+}
+.stat-n {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px; font-weight: 300; color: var(--earth);
+  line-height: 1;
+}
+.stat-l { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+/* SECTION WRAPPER */
+.section { padding: 32px; border-bottom: 1px solid var(--border); }
+.section:last-child { border-bottom: none; }
+.section-head {
+  display: flex; align-items: baseline;
+  justify-content: space-between; margin-bottom: 24px;
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px; font-weight: 400; color: var(--earth);
+}
+.section-sub { font-size: 12px; color: var(--muted); }
+
+/* MONTH TABS */
+.week-tabs { display: flex; gap: 4px; margin-bottom: 24px; flex-wrap: wrap; }
+.wtab {
+  font-size: 12px; padding: 5px 14px; border-radius: 20px;
+  cursor: pointer; border: 1px solid var(--border);
+  background: transparent; color: var(--muted);
+  transition: all .2s;
+}
+.wtab.on { background: var(--earth); color: var(--cream); border-color: var(--earth); }
+
+/* MENU TABLE */
+.menu-grid {
+  display: grid;
+  grid-template-columns: 80px repeat(7, 1fr);
+  gap: 2px;
+}
+.mg-head {
+  background: var(--warm); padding: 8px 10px;
+  font-size: 11px; font-weight: 500; color: var(--muted);
+  border-radius: 6px; text-align: center;
+}
+.mg-row-label {
+  background: var(--warm); padding: 8px 10px;
+  font-size: 11px; font-weight: 500; color: var(--muted);
+  border-radius: 6px; display: flex; align-items: center;
+}
+.mg-cell {
+  background: white; border-radius: 6px; padding: 8px 10px;
+  cursor: pointer; transition: all .2s; min-height: 56px;
+  border: 1px solid transparent;
+}
+.mg-cell:hover { border-color: var(--stone); }
+.mg-cell.green { background: var(--sage-light); }
+.mg-cell.amber { background: var(--gold-light); }
+.mg-cell.rust { background: var(--rust-light); }
+.mc-name { font-size: 12px; color: var(--text); line-height: 1.3; }
+.mc-time { font-size: 10px; color: var(--muted); margin-top: 3px; }
+
+/* RECIPE BOARD */
+.filter-bar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
+.fb {
+  font-size: 12px; padding: 5px 14px; border-radius: 20px;
+  cursor: pointer; border: 1px solid var(--border);
+  background: transparent; color: var(--muted); transition: all .2s;
+}
+.fb.on { background: var(--earth); color: var(--cream); border-color: var(--earth); }
+.recipes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+}
+.recipe-card {
+  background: white; border-radius: var(--radius);
+  border: 1px solid var(--border); overflow: hidden;
+  cursor: pointer; transition: transform .2s, border-color .2s;
+}
+.recipe-card:hover { transform: translateY(-2px); border-color: var(--stone); }
+.rc-img {
+  height: 80px; display: flex; align-items: center;
+  justify-content: center; font-size: 28px;
+}
+.rc-img.g { background: var(--sage-light); }
+.rc-img.a { background: var(--gold-light); }
+.rc-img.c { background: var(--rust-light); }
+.rc-img.w { background: var(--warm); }
+.rc-body { padding: 12px 14px; }
+.rc-meal { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
+.rc-name { font-size: 13px; font-weight: 500; color: var(--text); line-height: 1.3; margin-bottom: 8px; }
+.rc-ings { display: flex; flex-wrap: wrap; gap: 3px; margin-bottom: 10px; }
+.rc-ing {
+  font-size: 10px; padding: 2px 6px; border-radius: 6px;
+  background: var(--warm); color: var(--muted);
+}
+.rc-row { display: flex; justify-content: space-between; align-items: center; }
+.rc-time { font-size: 11px; color: var(--muted); }
+.rc-btn {
+  font-size: 11px; padding: 4px 10px; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--warm);
+  color: var(--earth); cursor: pointer; transition: all .2s;
+}
+.rc-btn:hover { background: var(--earth); color: var(--cream); }
+.rc-steps {
+  display: none; padding: 12px 14px;
+  border-top: 1px solid var(--border);
+}
+.rc-steps.open { display: block; }
+.rc-steps ol { padding-left: 16px; }
+.rc-steps li { font-size: 12px; color: var(--muted); line-height: 1.8; }
+.rc-tip {
+  margin-top: 8px; padding: 8px 10px;
+  border-radius: 8px; font-size: 11px; line-height: 1.5;
+  background: var(--sage-light); color: var(--sage);
+}
+.rc-tip.a { background: var(--gold-light); color: var(--gold); }
+
+/* TIPS SECTION */
+.tips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+}
+.tip-card {
+  background: white; border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px;
+}
+.tip-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px; font-weight: 300; color: var(--stone);
+  line-height: 1; margin-bottom: 10px;
+}
+.tip-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+.tip-body { font-size: 12px; color: var(--muted); line-height: 1.7; }
+
+/* AVOID / OK TABLES */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.list-card {
+  background: white; border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px;
+}
+.list-card h4 {
+  font-size: 13px; font-weight: 500; margin-bottom: 14px;
+  padding-bottom: 10px; border-bottom: 1px solid var(--border);
+}
+.list-card h4.red { color: var(--rust); }
+.list-card h4.green { color: var(--sage); }
+.list-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 12px;
+}
+.list-row:last-child { border-bottom: none; }
+.list-row span { color: var(--muted); font-size: 11px; }
+
+/* ALKOHOLIS */
+.alco-card {
+  background: white; border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+}
+.alco-title { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 12px; }
+.alco-item {
+  display: flex; justify-content: space-between;
+  padding: 6px 0; border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+.alco-item:last-child { border-bottom: none; }
+.ok { color: var(--sage); font-size: 11px; }
+.bad { color: var(--rust); font-size: 11px; }
+
+/* PAPILDAI */
+.supps-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+.supp-card {
+  background: white; border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px;
+}
+.supp-name { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+.supp-why { font-size: 12px; color: var(--muted); margin-bottom: 8px; line-height: 1.5; }
+.supp-food { font-size: 11px; color: var(--sage); background: var(--sage-light); padding: 4px 8px; border-radius: 6px; }
+
+/* MODALS */
+.modal-bg {
+  display: none; position: fixed; inset: 0;
+  background: rgba(42,33,24,.4); z-index: 200;
+  align-items: center; justify-content: center;
+}
+.modal-bg.open { display: flex; }
+.modal {
+  background: var(--cream); border-radius: 18px;
+  padding: 28px; max-width: 440px; width: 90%;
+  max-height: 80vh; overflow-y: auto;
+}
+.modal h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 400; color: var(--earth);
+  margin-bottom: 16px;
+}
+.modal-close {
+  float: right; font-size: 18px; color: var(--muted);
+  cursor: pointer; background: none; border: none;
+  line-height: 1;
+}
+
+/* WEEK SECTIONS */
+.week-section { display: none; }
+.week-section.active { display: block; }
+
+/* RESPONSIVE */
+@media(max-width:700px){
+  .hero { grid-template-columns: 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .alco-card { grid-template-columns: 1fr; }
+  nav { padding: 0 16px; }
+  .section { padding: 20px 16px; }
+  .hero { padding: 24px 16px; }
+  .menu-grid { grid-template-columns: 60px repeat(7,1fr); }
+}
+
+/* DIARY */
+.diary-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:700px){.diary-grid{grid-template-columns:1fr}}
+.diary-form{background:white;border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.diary-form h4,.diary-log h4{font-size:14px;font-weight:500;color:var(--text);margin-bottom:16px}
+.d-form-row{margin-bottom:14px}
+.d-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.chip-group{display:flex;gap:6px;flex-wrap:wrap}
+.d-chip{font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid var(--border);background:var(--warm);color:var(--muted);cursor:pointer;transition:all .15s;user-select:none}
+.d-chip.mood.sel{background:var(--earth);color:var(--cream);border-color:var(--earth)}
+.d-chip.meal.sel{background:var(--gold-light);color:var(--gold);border-color:var(--gold)}
+.d-chip.sym.sel{background:var(--rust-light);color:var(--rust);border-color:var(--rust)}
+.d-chip.sym.ok.sel{background:var(--sage-light);color:var(--sage);border-color:var(--sage)}
+.d-chip.time.sel{background:var(--earth);color:var(--cream);border-color:var(--earth)}
+.d-textarea{width:100%;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:13px;font-family:inherit;color:var(--text);background:var(--cream);resize:vertical;min-height:64px;outline:none;transition:border-color .15s}
+.d-textarea:focus{border-color:var(--stone)}
+.d-save-btn{width:100%;padding:10px;border-radius:10px;background:var(--earth);color:var(--cream);border:none;font-size:13px;font-family:inherit;cursor:pointer;margin-top:4px;transition:opacity .15s}
+.d-save-btn:hover{opacity:.85}
+.diary-log{background:white;border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.log-empty{font-size:13px;color:var(--muted);text-align:center;padding:32px 0;line-height:1.7}
+.log-entry{border-bottom:1px solid var(--border);padding:13px 0}
+.log-entry:last-child{border-bottom:none}
+.log-meta{font-size:11px;color:var(--muted);margin-bottom:6px}
+.log-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px}
+.log-tag{font-size:10px;padding:2px 7px;border-radius:6px}
+.log-tag.meal{background:var(--gold-light);color:var(--gold)}
+.log-tag.sym-bad{background:var(--rust-light);color:var(--rust)}
+.log-tag.sym-ok{background:var(--sage-light);color:var(--sage)}
+.log-tag.mood{background:var(--warm);color:var(--muted)}
+.log-note{font-size:12px;color:var(--muted);margin-top:4px;font-style:italic}
+.log-del{float:right;font-size:11px;color:var(--muted);cursor:pointer;background:none;border:none;padding:0}
+.log-del:hover{color:var(--rust)}
+.analysis-box{margin-top:16px;background:var(--warm);border-radius:var(--radius);padding:20px}
+.analysis-box h4{font-size:14px;font-weight:500;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.analysis-content{font-size:13px;color:var(--text);line-height:1.8}
+.analysis-content b{font-weight:500;color:var(--earth)}
+.analyze-btn{font-size:12px;padding:7px 16px;border-radius:20px;border:1px solid var(--border);background:white;color:var(--earth);cursor:pointer;transition:all .15s;margin-top:14px;display:none}
+.analyze-btn:hover{background:var(--earth);color:var(--cream)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinner{display:inline-block;width:13px;height:13px;border:2px solid var(--stone);border-top-color:var(--earth);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle}
+
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">mityba</div>
+  <div class="nav-links">
+    <a class="nav-link active" href="#menu">Meniu</a>
+    <a class="nav-link" href="#receptai">Receptai</a>
+    <a class="nav-link" href="#patarimai">Patarimai</a>
+    <a class="nav-link" href="#produktai">Produktai</a>
+    <a class="nav-link" href="#dienynas">Dienynas</a>
+  </div>
+  <div class="nav-tag">Low-FODMAP</div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <h1>Mėnesio <em>mitybos</em><br>planas</h1>
+    <div class="hero-sub">Asmeninis planas pagal virškinimo jautrumą. Visi patiekalai be svogūnų, kopūstinių ir ankštinių.</div>
+    <div class="tags-row">
+      <span class="avoid-tag">svogūnai ✕</span>
+      <span class="avoid-tag">česnakai ✕</span>
+      <span class="avoid-tag">kopūstiniai ✕</span>
+      <span class="avoid-tag">ankštiniai ✕</span>
+      <span class="avoid-tag">saldumynai ✕</span>
+      <span class="ok-tag">mėsa ✓</span>
+      <span class="ok-tag">žuvis ✓</span>
+      <span class="ok-tag">sūriai ✓</span>
+      <span class="ok-tag">kiaušiniai ✓</span>
+      <span class="ok-tag">daržovės ✓</span>
+    </div>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="stat-n">28</div><div class="stat-l">dienų</div></div>
+    <div class="stat"><div class="stat-n">22</div><div class="stat-l">receptų</div></div>
+    <div class="stat"><div class="stat-n">≤45</div><div class="stat-l">minučių</div></div>
+  </div>
+</div>
+
+<!-- MENIU -->
+<div class="section" id="menu">
+  <div class="section-head">
+    <div class="section-title">Mėnesio meniu</div>
+    <div class="section-sub">Spustelk ant patiekalo - pamatysi receptą</div>
+  </div>
+  <div class="week-tabs">
+    <button class="wtab on" onclick="showWeek(1,this)">1 savaitė</button>
+    <button class="wtab" onclick="showWeek(2,this)">2 savaitė</button>
+    <button class="wtab" onclick="showWeek(3,this)">3 savaitė</button>
+    <button class="wtab" onclick="showWeek(4,this)">4 savaitė</button>
+  </div>
+
+  <!-- WEEK 1 -->
+  <div class="week-section active" id="w1">
+    <div class="menu-grid">
+      <div class="mg-head"></div>
+      <div class="mg-head">Pr</div><div class="mg-head">An</div><div class="mg-head">Tr</div>
+      <div class="mg-head">Kt</div><div class="mg-head">Pt</div><div class="mg-head">Št</div><div class="mg-head">Sk</div>
+
+      <div class="mg-row-label">Pusryčiai</div>
+      <div class="mg-cell green" onclick="openRecipe('kiausiniene-paprika')"><div class="mc-name">Kiaušinienė su paprika ir feta</div><div class="mc-time">10 min</div></div>
+      <div class="mg-cell green" onclick="openRecipe('sumushtinis-vistiena')"><div class="mc-name">Sumuštinis su vištiena</div><div class="mc-time">5 min</div></div>
+      <div class="mg-cell green" onclick="openRecipe('kiausiniai-kumpis')"><div class="mc-name">Kiaušiniai su kumpiu</div><div class="mc-time">8 min</div></div>
+      <div class="mg-cell green" onclick="openRecipe('kiausiniene-paprika')"><div class="mc-name">Kiaušinienė su paprika ir feta</div><div class="mc-time">10 min</div></div>
+      <div class="mg-cell green" onclick="openRecipe('sumushtinis-desra')"><div class="mc-name">Sumuštinis su dešra</div><div class="mc-time">5 min</div></div>
+      <div class="mg-cell green" onclick="openRecipe('kiausiniai-kumpis')"><div class="mc-name">Kiaušiniai su kumpiu</div><div class="mc-time">8 min</div></div>
+      <div class="mg-cell green" onclick="openRecipe('sumushtinis-vistiena')"><div class="mc-name">Sumuštinis su vištiena</div><div class="mc-time">5 min</div></div>
+
+      <div class="mg-row-label">Pietūs</div>
+      <div class="mg-cell amber" onclick="openRecipe('vistiena-morkos')"><div class="mc-name">Vištiena su morkomis ir ryžiais</div><div class="mc-time">30 min</div></div>
+      <div class="mg-cell amber" onclick="openRecipe('jautiena-troskinys')"><div class="mc-name">Jautienos troškinys su bulvėmis</div><div class="mc-time">40 min</div></div>
+      <div class="mg-cell amber" onclick="openRecipe('lasisha-bulves')"><div class="mc-name">Lašiša su bulvių koše ir špinatais</div><div class="mc-time">20 min</div></div>
+      <div class="mg-cell amber" onclick="openRecipe('malta-keptuve')"><div class="mc-name">Malta jautiena su paprika ir ryžiais</div><div class="mc-time">25 min</div></div>
+      <div class="mg-cell amber" onclick="openRecipe('vistiena-morkos')"><div class="mc-name">Vištiena su morkomis ir ryžiais</div><div class="mc-time">30 min</div></div>
+      <div class="mg-cell amber" onclick="openRecipe('vistiena-salotos')"><div class="mc-name">Vištienos salotos su avokadu</div><div class="mc-time">15 min</div></div>
+      <div class="mg-cell amber" onclick="openRecipe('jautiena-troskinys')"><div class="mc-name">Jautienos troškinys su bulvėmis</div><div class="mc-time">40 min</div></div>
+
+      <div class="mg-row-label">Vakarienė</div>
+      <div class="mg-cell rust" onclick="openRecipe('upetakis-morkos')"><div class="mc-name">Upėtakis su krapais</div><div class="mc-time">20 min</div></div>
+      <div class="mg-cell rust" onclick="openRecipe('vistiena-orkaiteje')"><div class="mc-name">Vištiena orkaitėje</div><div class="mc-time">45 min</div></div>
+      <div class="mg-cell rust" onclick="openRecipe('jautiena-kepta')"><div class="mc-name">Jautienos kepsnys su koše</div><div class="mc-time">30 min</div></div>
+      <div class="mg-cell rust" onclick="openRecipe('vistiena-sriuba')"><div class="mc-name">Vištienos sriuba su morkomis</div><div class="mc-time">35 min</div></div>
+      <div class="mg-cell rust" onclick="openRecipe('lasisha-bulves')"><div class="mc-name">Lašiša su špinatais ir citrinos sviestu</div><div class="mc-time">20 min</div></div>
+      <div class="mg-cell rust" onclick="openRecipe('malta-keptuve')"><div class="mc-name">Malta jautiena su paprika ir ryžiais</div><div class="mc-time">25 min</div></div>
+      <div class="mg-cell rust" onclick="openRecipe('kiauliena-orkaiteje')"><div class="mc-name">Kiauliena orkaitėje su daržovėmis</div><div class="mc-time">45 min</div></div>
+    </div>
+  </div>
+
+  <!-- WEEK 2 -->
+  <div class="week-section" id="w2">
+    <div class="menu-grid">
+      <div class="mg-head"></div>
+      <div class="mg-head">Pr</div><div class="mg-head">An</div><div class="mg-head">Tr</div>
+      <div class="mg-head">Kt</div><div class="mg-head">Pt</div><div class="mg-head">Št</div><div class="mg-head">Sk</div>
+
+      <div class="mg-row-label">Pusryčiai</div>
+      <div class="mg-cell green" onclick="openRecipe('sumushtinis-desra')"><div class="mc-name">Sumuštinis su jautienos dešra</div><div class="mc-time">5 min</div></div>
+      <div class="mg-cell green" onclick="openRecipe('kiausiniene-paprika')"><div class="mc-name">Kiaušinienė su paprika ir feta</div><div class="mc-time">10 min</div></div>
+      <div class="mg-cell green" onclick="openRecipe('kiausiniai-spinatai')"><div class="mc-name">Kiaušiniai su špinatais ir sūriu</div><div class="mc-time">10 min</div></div>
+      <div class="mg-cell green" onclick="openRecipe('kiausiniai-kumpis')"><div class="mc-name">Kiaušiniai su kumpio griežinėliais</div><div class="mc-time">8 min</div></div>
+      <div class="mg-cell green" onclick="openRecipe('sumushtinis-vistiena')"><div class="mc-name">Sumuštinis su vištiena ir čederiu</div><div class="mc-time">5 min</div></div>
+      <div class="mg-cell green" onclick="openRecipe('sumushtinis-desra')"><div class="mc-name">Sumuštinis su jautienos dešra</div><div class="mc-time">5 min</div></div>
+      <div class="mg-cell green" onclick="openRecipe('kiausiniene-paprika')"><div class="mc-name">Kiaušinienė su paprika ir feta</div><div class="mc-time">10 min</div></div>
+
+      <div class="mg-row-label">Pietūs</div>
+      <div class="mg-cell amber" onclick="openRecipe('lasisha-bulves')"><div class="mc-name">Lašiša su bulvių koše ir špinatais</div><div class="mc-time">20 min</div></div>
+      <div class="mg-cell amber" onclick="openRecipe('vistiena-ryžiai-cukinija')"><div class="mc-name">Vištiena su cukinija ir ryžiais</div><div class="mc-time">30 min</div></div>
+      <div class="mg-cell amber" onclick="openRecipe('jautiena-troskinys')"><div class="mc-name">Jautienos troškinys su bulvėmis</div><div class="mc-time">40 min</div></div>
+      <div class="mg-cell amber" onclick="openRecipe('vistiena-salotos')"><div class="mc-name">Vištienos salotos su avokadu</div><div class="mc-time">15 min</div></div>
+      <div class="mg-cell amber" onclick="openRecipe('malta-keptuve')"><div class="mc-name">Malta jautiena su paprika ir ryžiais</div><div class="mc-time">25 min</div></div>
+      <div class="mg-cell amber" onclick="openRecipe('upetakis-bulves')"><div class="mc-name">Upėtakis su bulvėmis ir morkomis</div><div class="mc-time">25 min</div></div>
+      <div class="mg-cell amber" onclick="openRecipe('jautiena-troskinys')"><div class="mc-name">Jautienos troškinys su bulvėmis</div><div class="mc-time">40 min</div></div>
+
+      <div class="mg-row-label">Vakarienė</div>
+      <div class="mg-cell rust" onclick="openRecipe('jautiena-kepta')"><div class="mc-name">Jautienos kepsnys su bulvių koše</div><div class="mc-time">30 min</div></div>
+      <div class="mg-cell rust" onclick="openRecipe('vistiena-sriuba')"><div class="mc-name">Vištienos sriuba su morkomis</div><div class="mc-time">35 min</div></div>
+      <div class="mg-cell rust" onclick="openRecipe('kiauliena-garstycios')"><div class="mc-name">Kiauliena su garstyčių marinate</div><div class="mc-time">35 min</div></div>
+      <div class="mg-cell rust" onclick="openRecipe('lasisha-bulves')"><div class="mc-name">Lašiša su špinatais ir citrinos sviestu</div><div class="mc-time">20 min</div></div>
+      <div class="mg-cell rust" onclick="openRecipe('malta-keptuve')"><div class="mc-name">Malta jautiena su paprika ir ryžiais</div><div class="mc-time">25 min</div></div>
+      <div class="mg-cell rust" onclick="openRecipe('vistiena-orkaiteje')"><div class="mc-name">Vištiena orkaitėje su daržovėmis</div><div class="mc-time">45 min</div></div>
+      <div class="mg-cell rust" onclick="openRecipe('upetakis-morkos')"><div class="mc-name">Upėtakis su krapais ir morkomis</div><div class="mc-time">20 min</div></div>
+    </div>
+  </div>
+
+  <!-- WEEK 3 -->
+  <div class="week-section" id="w3">
+    <div class="menu-grid">
+      <div class="mg-head"></div>
+      <div class="mg-head">Pr</div><div class="mg-head">An</div><div class="mg-head">Tr</div>
+      <div class="mg-head">Kt</div><div class="mg-head">Pt</div><div class="mg-head">Št</div><div class="mg-head">Sk</div>
+
+      <div class="mg-row-label">Pusryčiai</div>
+      <div class="mg-cell green" onclick="openRecipe('kiausiniene-paprika')"><div class="mc-name">Kiaušinienė su paprika ir feta</div><div class="mc-time">10 min</div></div>
+      <div class="mg-cell green" onclick="openRecipe('kiausiniai-spinatai')"><div class="mc-name">Kiaušiniai su špinatais ir sūriu</div><div class="mc-time">10 min</div></div>
+      <div class="mg-cell green" onclick="openRecipe('sumushtinis-vistiena')"><div class="mc-name">Sumuštinis su vištiena ir čederiu</div><div class="mc-time">5 min</div></div>
+      <div class="mg-cell green" onclick="openRecipe('sumushtinis-desra')"><div class="mc-name">Sumuštinis su jautienos dešra</div><div class="mc-time">5 min</div></div>
+      <div class="mg-cell green" onclick="openRecipe('kiausiniai-kumpis')"><div class="mc-name">Kiaušiniai su kumpio griežinėliais</div><div class="mc-time">8 min</div></div>
+      <div class="mg-cell green" onclick="openRecipe('kiausiniene-paprika')"><div class="mc-name">Kiaušinienė su paprika ir feta</div><div class="mc-time">10 min</div></div>
+      <div class="mg-cell green" onclick="openRecipe('kiausiniai-spinatai')"><div class="mc-name">Kiaušiniai su špinatais ir sūriu</div><div class="mc-time">10 min</div></div>
+
+      <div class="mg-row-label">Pietūs</div>
+      <div class="mg-cell amber" onclick="openRecipe('jautiena-ryžiai')"><div class="mc-name">Troškinta jautiena su ryžiais</div><div class="mc-time">40 min</div></div>
+      <div class="mg-cell amber" onclick="openRecipe('lasisha-bulves')"><div class="mc-name">Lašiša su bulvių koše ir špinatais</div><div class="mc-time">20 min</div></div>
+      <div class="mg-cell amber" onclick="openRecipe('vistiena-ryžiai-cukinija')"><div class="mc-name">Vištiena su cukinija ir ryžiais</div><div class="mc-time">30 min</div></div>
+      <div class="mg-cell amber" onclick="openRecipe('upetakis-bulves')"><div class="mc-name">Upėtakis su bulvėmis ir morkomis</div><div class="mc-time">25 min</div></div>
+      <div class="mg-cell amber" onclick="openRecipe('vistiena-salotos')"><div class="mc-name">Vištienos salotos su avokadu</div><div class="mc-time">15 min</div></div>
+      <div class="mg-cell amber" onclick="openRecipe('jautiena-ryžiai')"><div class="mc-name">Troškinta jautiena su ryžiais</div><div class="mc-time">40 min</div></div>
+      <div class="mg-cell amber" onclick="openRecipe('malta-keptuve')"><div class="mc-name">Malta jautiena su paprika ir ryžiais</div><div class="mc-time">25 min</div></div>
+
+      <div class="mg-row-label">Vakarienė</div>
+      <div class="mg-cell rust" onclick="openRecipe('vistiena-sriuba')"><div class="mc-name">Vištienos sriuba su morkomis</div><div class="mc-time">35 min</div></div>
+      <div class="mg-cell rust" onclick="openRecipe('kiauliena-garstycios')"><div class="mc-name">Kiauliena su garstyčių marinate</div><div class="mc-time">35 min</div></div>
+      <div class="mg-cell rust" onclick="openRecipe('kiauliena-orkaiteje')"><div class="mc-name">Kiauliena orkaitėje su daržovėmis</div><div class="mc-time">45 min</div></div>
+      <div class="mg-cell rust" onclick="openRecipe('jautiena-kepta')"><div class="mc-name">Jautienos kepsnys su bulvių koše</div><div class="mc-time">30 min</div></div>
+      <div class="mg-cell rust" onclick="openRecipe('vistiena-orkaiteje')"><div class="mc-name">Vištiena orkaitėje su daržovėmis</div><div class="mc-time">45 min</div></div>
+      <div class="mg-cell rust" onclick="openRecipe('upetakis-morkos')"><div class="mc-name">Upėtakis su krapais ir morkomis</div><div class="mc-time">20 min</div></div>
+      <div class="mg-cell rust" onclick="openRecipe('lasisha-bulves')"><div class="mc-name">Lašiša su špinatais ir citrinos sviestu</div><div class="mc-time">20 min</div></div>
+    </div>
+  </div>
+
+  <!-- WEEK 4 -->
+  <div class="week-section" id="w4">
+    <div class="menu-grid">
+      <div class="mg-head"></div>
+      <div class="mg-head">Pr</div><div class="mg-head">An</div><div class="mg-head">Tr</div>
+      <div class="mg-head">Kt</div><div class="mg-head">Pt</div><div class="mg-head">Št</div><div class="mg-head">Sk</div>
+
+      <div class="mg-row-label">Pusryčiai</div>
+      <div class="mg-cell green" onclick="openRecipe('kiausiniai-kumpis')"><div class="mc-name">Kiaušiniai su kumpiu</div><div class="mc-time">8 min</div></div>
+      <div class="mg-cell green" onclick="openRecipe('sumushtinis-desra')"><div class="mc-name">Sumuštinis su dešra</div><div class="mc-time">5 min</div></div>
+      <div class="mg-cell green" onclick="openRecipe('kiausiniene-paprika')"><div class="mc-name">Kiaušinienė su paprika</div><div class="mc-time">10 min</div></div>
+      <div class="mg-cell green" onclick="openRecipe('sumushtinis-vistiena')"><div class="mc-name">Sumuštinis su vištiena</div><div class="mc-time">5 min</div></div>
+      <div class="mg-cell green" onclick="openRecipe('kiausiniai-kumpis')"><div class="mc-name">Kiaušiniai su kumpiu</div><div class="mc-time">8 min</div></div>
+      <div class="mg-cell green" onclick="openRecipe('kiausiniene-paprika')"><div class="mc-name">Kiaušinienė su feta</div><div class="mc-time">10 min</div></div>
+      <div class="mg-cell green" onclick="openRecipe('sumushtinis-desra')"><div class="mc-name">Sumuštinis su dešra</div><div class="mc-time">5 min</div></div>
+
+      <div class="mg-row-label">Pietūs</div>
+      <div class="mg-cell amber" onclick="openRecipe('vistiena-morkos')"><div class="mc-name">Vištiena su morkomis</div><div class="mc-time">30 min</div></div>
+      <div class="mg-cell amber" onclick="openRecipe('malta-keptuve')"><div class="mc-name">Malta jautiena</div><div class="mc-time">25 min</div></div>
+      <div class="mg-cell amber" onclick="openRecipe('lasisha-bulves')"><div class="mc-name">Lašiša su bulvių koše</div><div class="mc-time">20 min</div></div>
+      <div class="mg-cell amber" onclick="openRecipe('vistiena-salotos')"><div class="mc-name">Vištienos salotos</div><div class="mc-time">15 min</div></div>
+      <div class="mg-cell amber" onclick="openRecipe('jautiena-troskinys')"><div class="mc-name">Jautienos troškinys</div><div class="mc-time">40 min</div></div>
+      <div class="mg-cell amber" onclick="openRecipe('vistiena-morkos')"><div class="mc-name">Vištiena su morkomis</div><div class="mc-time">30 min</div></div>
+      <div class="mg-cell amber" onclick="openRecipe('vistiena-salotos')"><div class="mc-name">Vištienos salotos</div><div class="mc-time">15 min</div></div>
+
+      <div class="mg-row-label">Vakarienė</div>
+      <div class="mg-cell rust" onclick="openRecipe('kiauliena-orkaiteje')"><div class="mc-name">Kiauliena orkaitėje</div><div class="mc-time">45 min</div></div>
+      <div class="mg-cell rust" onclick="openRecipe('vistiena-sriuba')"><div class="mc-name">Vištienos sriuba</div><div class="mc-time">35 min</div></div>
+      <div class="mg-cell rust" onclick="openRecipe('jautiena-kepta')"><div class="mc-name">Jautienos kepsnys</div><div class="mc-time">30 min</div></div>
+      <div class="mg-cell rust" onclick="openRecipe('upetakis-morkos')"><div class="mc-name">Upėtakis su krapais</div><div class="mc-time">20 min</div></div>
+      <div class="mg-cell rust" onclick="openRecipe('vistiena-orkaiteje')"><div class="mc-name">Vištiena orkaitėje</div><div class="mc-time">45 min</div></div>
+      <div class="mg-cell rust" onclick="openRecipe('malta-keptuve')"><div class="mc-name">Malta jautiena</div><div class="mc-time">25 min</div></div>
+      <div class="mg-cell rust" onclick="openRecipe('lasisha-bulves')"><div class="mc-name">Lašiša su špinatais</div><div class="mc-time">20 min</div></div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:12px;margin-top:16px;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:6px"><div style="width:10px;height:10px;border-radius:3px;background:var(--sage-light);border:1px solid rgba(122,140,110,.3)"></div><span style="font-size:11px;color:var(--muted)">pusryčiai</span></div>
+    <div style="display:flex;align-items:center;gap:6px"><div style="width:10px;height:10px;border-radius:3px;background:var(--gold-light);border:1px solid rgba(196,150,58,.3)"></div><span style="font-size:11px;color:var(--muted)">pietūs</span></div>
+    <div style="display:flex;align-items:center;gap:6px"><div style="width:10px;height:10px;border-radius:3px;background:var(--rust-light);border:1px solid rgba(184,92,58,.3)"></div><span style="font-size:11px;color:var(--muted)">vakarienė</span></div>
+  </div>
+</div>
+
+<!-- RECEPTAI -->
+<div class="section" id="receptai">
+  <div class="section-head">
+    <div class="section-title">Receptai</div>
+  </div>
+  <div class="filter-bar">
+    <button class="fb on" onclick="filterR(this,'all')">visi</button>
+    <button class="fb" onclick="filterR(this,'pusryciai')">pusryčiai</button>
+    <button class="fb" onclick="filterR(this,'pietus')">pietūs</button>
+    <button class="fb" onclick="filterR(this,'vakariene')">vakarienė</button>
+    <button class="fb" onclick="filterR(this,'uzkandziai')">užkandžiai</button>
+  </div>
+  <div class="recipes-grid">
+
+    <!-- PUSRYČIAI -->
+    <div class="recipe-card" data-cat="pusryciai" data-id="kiausiniene-paprika">
+      <div class="rc-img g">🍳</div>
+      <div class="rc-body">
+        <div class="rc-meal">pusryčiai</div>
+        <div class="rc-name">Kiaušinienė su paprika ir feta</div>
+        <div class="rc-ings"><span class="rc-ing">kiaušiniai</span><span class="rc-ing">paprika</span><span class="rc-ing">feta</span><span class="rc-ing">sviestas</span></div>
+        <div class="rc-row"><span class="rc-time">10 min</span><button class="rc-btn" onclick="togR(this)">receptas</button></div>
+        <div class="rc-steps">
+          <ol><li>Išplak 3 kiaušinius su druska ir pipirais</li><li>Svieste pakepink papriką 2 min</li><li>Supilk kiaušinius, maišyk ant vidutinės ugnies</li><li>Prieš išjungiant subyrink fetą</li></ol>
+          <div class="rc-tip">Keisti galima: cukinija, špinatai, pomidoras</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="recipe-card" data-cat="pusryciai" data-id="kiausiniai-kumpis">
+      <div class="rc-img a">🥚</div>
+      <div class="rc-body">
+        <div class="rc-meal">pusryčiai</div>
+        <div class="rc-name">Kiaušiniai su kumpio griežinėliais</div>
+        <div class="rc-ings"><span class="rc-ing">kiaušiniai</span><span class="rc-ing">kumpis</span><span class="rc-ing">agurkas</span></div>
+        <div class="rc-row"><span class="rc-time">8 min</span><button class="rc-btn" onclick="togR(this)">receptas</button></div>
+        <div class="rc-steps">
+          <ol><li>Sausoje keptuvėje apkepink kumpio griežinėlius 1-2 min</li><li>Toje pačioje keptuvėje kepk kiaušinius</li><li>Šalia patiekti agurką</li></ol>
+          <div class="rc-tip">Rinkis kumpį be cukraus sudėtyje</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="recipe-card" data-cat="pusryciai" data-id="sumushtinis-vistiena">
+      <div class="rc-img g">🥪</div>
+      <div class="rc-body">
+        <div class="rc-meal">pusryčiai</div>
+        <div class="rc-name">Sumuštinis su vištiena ir sūriu</div>
+        <div class="rc-ings"><span class="rc-ing">duona</span><span class="rc-ing">vištiena</span><span class="rc-ing">čederis</span><span class="rc-ing">garstyčios</span></div>
+        <div class="rc-row"><span class="rc-time">5 min</span><button class="rc-btn" onclick="togR(this)">receptas</button></div>
+        <div class="rc-steps">
+          <ol><li>Ant duonos užtepk garstyčias</li><li>Dėk plonais gabalėliais vištieną</li><li>Uždėk sūrį ir agurkų žiedus</li></ol>
+          <div class="rc-tip">Vištieną išvirk vakare - rytas bus greitas</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="recipe-card" data-cat="pusryciai" data-id="sumushtinis-desra">
+      <div class="rc-img c">🥩</div>
+      <div class="rc-body">
+        <div class="rc-meal">pusryčiai</div>
+        <div class="rc-name">Sumuštinis su jautienos dešra</div>
+        <div class="rc-ings"><span class="rc-ing">duona</span><span class="rc-ing">jautienos dešra</span><span class="rc-ing">garstyčios</span></div>
+        <div class="rc-row"><span class="rc-time">5 min</span><button class="rc-btn" onclick="togR(this)">receptas</button></div>
+        <div class="rc-steps">
+          <ol><li>Dešrą supjaustyti, 2 min pakepinti</li><li>Ant duonos - garstyčios, dešra, pomidoras</li></ol>
+          <div class="rc-tip">Sudėtį patikrink etikėtėje - be cukraus ir svogūnų miltelių</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PIETŪS -->
+    <div class="recipe-card" data-cat="pietus" data-id="vistiena-morkos">
+      <div class="rc-img g">🍗</div>
+      <div class="rc-body">
+        <div class="rc-meal">pietūs</div>
+        <div class="rc-name">Vištiena su morkomis ir ryžiais</div>
+        <div class="rc-ings"><span class="rc-ing">vištiena</span><span class="rc-ing">morkos</span><span class="rc-ing">ryžiai</span><span class="rc-ing">česnakinė alyva</span></div>
+        <div class="rc-row"><span class="rc-time">30 min</span><button class="rc-btn" onclick="togR(this)">receptas</button></div>
+        <div class="rc-steps">
+          <ol><li>Ryžius virti atskirai</li><li>Vištieną supjaustyti, kepti aliejuje 6-8 min</li><li>Sudėti morkas, kepti dar 5 min</li><li>Pagardinti druska, česnakinės alyvos lašas prieš patiekiant</li></ol>
+          <div class="rc-tip">Česnakinė alyva: alyvuogių aliejus + česnako griežinėliai 24h - po to česnako išimk</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="recipe-card" data-cat="pietus" data-id="jautiena-troskinys">
+      <div class="rc-img a">🥩</div>
+      <div class="rc-body">
+        <div class="rc-meal">pietūs</div>
+        <div class="rc-name">Jautienos troškinys su bulvėmis</div>
+        <div class="rc-ings"><span class="rc-ing">jautiena</span><span class="rc-ing">bulvės</span><span class="rc-ing">morkos</span><span class="rc-ing">lauro lapas</span></div>
+        <div class="rc-row"><span class="rc-time">40 min</span><button class="rc-btn" onclick="togR(this)">receptas</button></div>
+        <div class="rc-steps">
+          <ol><li>Jautieną supjaustyti, apkepinti iš visų pusių</li><li>Sudėti bulves ir morkas, užpilti vandeniu iki pusės</li><li>Dėti lauro lapą, druską - virti 30 min ant mažos ugnies</li></ol>
+          <div class="rc-tip">Pagamink vakarą prieš - termosas kitą dieną</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="recipe-card" data-cat="pietus" data-id="lasisha-bulves">
+      <div class="rc-img w">🐟</div>
+      <div class="rc-body">
+        <div class="rc-meal">pietūs / vakarienė</div>
+        <div class="rc-name">Lašiša su bulvių koše ir špinatais</div>
+        <div class="rc-ings"><span class="rc-ing">lašišos filė</span><span class="rc-ing">bulvės</span><span class="rc-ing">špinatai</span><span class="rc-ing">sviestas</span><span class="rc-ing">citrina</span></div>
+        <div class="rc-row"><span class="rc-time">20 min</span><button class="rc-btn" onclick="togR(this)">receptas</button></div>
+        <div class="rc-steps">
+          <ol><li>Bulves išvirti ir sugrūsti su sviestu ir druska</li><li>Lašišą kepti svieste 4-5 min iš kiekvienos pusės</li><li>Špinatai - 2 min su sviesto lašu kol suvysta</li><li>Apšlakstyti citrinos sultimis</li></ol>
+          <div class="rc-tip">Špinatai - mažas FODMAP, daug magnio ir geležies</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="recipe-card" data-cat="pietus" data-id="malta-keptuve">
+      <div class="rc-img g">🍳</div>
+      <div class="rc-body">
+        <div class="rc-meal">pietūs / vakarienė</div>
+        <div class="rc-name">Malta jautiena su paprika ir ryžiais</div>
+        <div class="rc-ings"><span class="rc-ing">malta jautiena</span><span class="rc-ing">paprika</span><span class="rc-ing">ryžiai</span><span class="rc-ing">pomidorų padažas</span></div>
+        <div class="rc-row"><span class="rc-time">25 min</span><button class="rc-btn" onclick="togR(this)">receptas</button></div>
+        <div class="rc-steps">
+          <ol><li>Ryžius virti atskirai</li><li>Mėsą kepti kol paruduos - 8 min</li><li>Sudėti papriką, kepti 3 min</li><li>Supilti pomidorų padažą, virti 5 min</li><li>Česnakinės alyvos lašas prieš patiekiant</li></ol>
+          <div class="rc-tip">Pomidorų padažą rinkis be svogūnų - patikrink sudėtį</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="recipe-card" data-cat="pietus" data-id="vistiena-salotos">
+      <div class="rc-img c">🥗</div>
+      <div class="rc-body">
+        <div class="rc-meal">pietūs</div>
+        <div class="rc-name">Vištienos salotos su avokadu</div>
+        <div class="rc-ings"><span class="rc-ing">vištiena</span><span class="rc-ing">avokadas</span><span class="rc-ing">paprika</span><span class="rc-ing">sūris</span><span class="rc-ing">citrina</span></div>
+        <div class="rc-row"><span class="rc-time">15 min</span><button class="rc-btn" onclick="togR(this)">receptas</button></div>
+        <div class="rc-steps">
+          <ol><li>Vištieną supjaustyti ar sudraskyt gabalėliais</li><li>Avokadą supjaustyti kubeliais</li><li>Sumaišyti su paprika, sūriu, aliejumi</li><li>Pagardinti druska ir citrinos sultimis</li></ol>
+          <div class="rc-tip">Avokado - mažas FODMAP kai pusė vaisio ar mažiau</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VAKARIENĖ -->
+    <div class="recipe-card" data-cat="vakariene" data-id="upetakis-morkos">
+      <div class="rc-img g">🐟</div>
+      <div class="rc-body">
+        <div class="rc-meal">vakarienė</div>
+        <div class="rc-name">Upėtakis su krapais ir morkomis</div>
+        <div class="rc-ings"><span class="rc-ing">upėtakis</span><span class="rc-ing">morkos</span><span class="rc-ing">sviestas</span><span class="rc-ing">krapai</span><span class="rc-ing">citrina</span></div>
+        <div class="rc-row"><span class="rc-time">20 min</span><button class="rc-btn" onclick="togR(this)">receptas</button></div>
+        <div class="rc-steps">
+          <ol><li>Morkas virti kol pusiau minkštos - 8 min</li><li>Žuvį kepti svieste 3-4 min iš kiekvienos pusės</li><li>Patiekti su morkomis, krapais ir citrinos skiltele</li></ol>
+          <div class="rc-tip">Krapai - be FODMAP, tinka drąsiai</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="recipe-card" data-cat="vakariene" data-id="vistiena-orkaiteje">
+      <div class="rc-img a">🍗</div>
+      <div class="rc-body">
+        <div class="rc-meal">vakarienė</div>
+        <div class="rc-name">Vištiena orkaitėje su daržovėmis</div>
+        <div class="rc-ings"><span class="rc-ing">vištienos šlaunelės</span><span class="rc-ing">morkos</span><span class="rc-ing">cukinija</span><span class="rc-ing">bulvės</span></div>
+        <div class="rc-row"><span class="rc-time">45 min</span><button class="rc-btn" onclick="togR(this)">receptas</button></div>
+        <div class="rc-steps">
+          <ol><li>Viską supjaustyti ir sudėti į kepimo indą</li><li>Apšlakstyti aliejumi, pagardinti druska ir raudonėliais</li><li>Kepti 200°C 35-40 min kol viršus auksininis</li></ol>
+          <div class="rc-tip">Marinuok ryte - vakare tik į orkaitę</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="recipe-card" data-cat="vakariene" data-id="jautiena-kepta">
+      <div class="rc-img w">🥩</div>
+      <div class="rc-body">
+        <div class="rc-meal">vakarienė</div>
+        <div class="rc-name">Jautienos kepsnys su bulvių koše</div>
+        <div class="rc-ings"><span class="rc-ing">jautienos filė</span><span class="rc-ing">bulvės</span><span class="rc-ing">sviestas</span><span class="rc-ing">rozmarinas</span></div>
+        <div class="rc-row"><span class="rc-time">30 min</span><button class="rc-btn" onclick="togR(this)">receptas</button></div>
+        <div class="rc-steps">
+          <ol><li>Mėsą išimti iš šaldytuvo 15 min prieš kepant</li><li>Karšta keptuvė + sviestas - kepti po 3-4 min iš šono</li><li>Palikti pailsėti 5 min prieš pjaustant</li><li>Bulves išvirti ir grūsti su sviestu ir druska</li></ol>
+          <div class="rc-tip">5 minučių poilsis po kepimo = sultingesnė mėsa</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="recipe-card" data-cat="vakariene" data-id="vistiena-sriuba">
+      <div class="rc-img g">🍲</div>
+      <div class="rc-body">
+        <div class="rc-meal">vakarienė</div>
+        <div class="rc-name">Vištienos sriuba su morkomis</div>
+        <div class="rc-ings"><span class="rc-ing">vištiena</span><span class="rc-ing">morkos</span><span class="rc-ing">salierai</span><span class="rc-ing">krapai</span></div>
+        <div class="rc-row"><span class="rc-time">35 min</span><button class="rc-btn" onclick="togR(this)">receptas</button></div>
+        <div class="rc-steps">
+          <ol><li>Vištieną ir morkas užpilti vandeniu, virti 25 min</li><li>Išimti vištieną, sudraskyt gabalėliais ir grąžinti</li><li>Pagardinti druska, subyrinti krapus</li></ol>
+          <div class="rc-tip">Salierai - ne saliero šaknis, o stiebai. Mažas FODMAP.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="recipe-card" data-cat="vakariene" data-id="kiauliena-orkaiteje">
+      <div class="rc-img c">🍖</div>
+      <div class="rc-body">
+        <div class="rc-meal">vakarienė</div>
+        <div class="rc-name">Kiauliena su daržovėmis orkaitėje</div>
+        <div class="rc-ings"><span class="rc-ing">kiaulienos sprandinė</span><span class="rc-ing">bulvės</span><span class="rc-ing">morkos</span><span class="rc-ing">aliejus</span></div>
+        <div class="rc-row"><span class="rc-time">45 min</span><button class="rc-btn" onclick="togR(this)">receptas</button></div>
+        <div class="rc-steps">
+          <ol><li>Mėsą ir daržoves supjaustyti, sudėti į kepimo indą</li><li>Apšlakstyti aliejumi, pagardinti druska, raudonėliais, garstyčiomis</li><li>Kepti 200°C 35-40 min</li></ol>
+          <div class="rc-tip">Garstyčios + aliejus = paprastas marinatas</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UŽKANDŽIAI -->
+    <div class="recipe-card" data-cat="uzkandziai">
+      <div class="rc-img g">🧀</div>
+      <div class="rc-body">
+        <div class="rc-meal">užkandis</div>
+        <div class="rc-name">Sūris su agurkais ir alyvuogėmis</div>
+        <div class="rc-ings"><span class="rc-ing">sūris</span><span class="rc-ing">agurkas</span><span class="rc-ing">alyvuogės</span></div>
+        <div class="rc-row"><span class="rc-time">2 min</span><button class="rc-btn" onclick="togR(this)">receptas</button></div>
+        <div class="rc-steps">
+          <div style="font-size:12px;color:var(--muted);line-height:1.7">Supjaustyti ir sudėti į dėžutę. Feta + agurkas + alyvuogių aliejaus lašas = graikiška versija.</div>
+          <div class="rc-tip">Po tinklinio - baltymai ir riebalai greitai</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="recipe-card" data-cat="uzkandziai">
+      <div class="rc-img a">🥜</div>
+      <div class="rc-body">
+        <div class="rc-meal">užkandis</div>
+        <div class="rc-name">Riešutai su tamsiu šokoladu</div>
+        <div class="rc-ings"><span class="rc-ing">graikiniai riešutai</span><span class="rc-ing">šokoladas 85%+</span></div>
+        <div class="rc-row"><span class="rc-time">0 min</span><button class="rc-btn" onclick="togR(this)">pastaba</button></div>
+        <div class="rc-steps">
+          <div style="font-size:12px;color:var(--muted);line-height:1.7">Sauja riešutų (30-40g) + 2-3 šokolado skiltelės. Šokoladas 85%+ turi magnio.</div>
+          <div class="rc-tip">Vengti sūdytų ar apglazūruotų riešutų</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="recipe-card" data-cat="uzkandziai">
+      <div class="rc-img w">🫙</div>
+      <div class="rc-body">
+        <div class="rc-meal">užkandis</div>
+        <div class="rc-name">Graikiškas jogurtas su uogomis</div>
+        <div class="rc-ings"><span class="rc-ing">graikiškas jogurtas</span><span class="rc-ing">braškės arba mėlynės</span></div>
+        <div class="rc-row"><span class="rc-time">3 min</span><button class="rc-btn" onclick="togR(this)">pastaba</button></div>
+        <div class="rc-steps">
+          <div style="font-size:12px;color:var(--muted);line-height:1.7">150g jogurto + sauja uogų. Graikiškas jogurtas paprastai toleruojamas geriau nei pienas.</div>
+          <div class="rc-tip">Tinka: braškės, mėlynės, avietės, vynuogės</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="recipe-card" data-cat="uzkandziai">
+      <div class="rc-img c">🥑</div>
+      <div class="rc-body">
+        <div class="rc-meal">užkandis</div>
+        <div class="rc-name">Avokadas ant duonos</div>
+        <div class="rc-ings"><span class="rc-ing">avokadas</span><span class="rc-ing">duona</span><span class="rc-ing">jūros druska</span><span class="rc-ing">alyvuogių aliejus</span></div>
+        <div class="rc-row"><span class="rc-time">3 min</span><button class="rc-btn" onclick="togR(this)">receptas</button></div>
+        <div class="rc-steps">
+          <ol><li>Avokadą sugrūsti šakute</li><li>Užtepti ant duonos</li><li>Lašas aliejaus, jūros druskos žiupsnis</li></ol>
+          <div class="rc-tip">Pusė avokado = mažas FODMAP. Visas - per daug.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PATARIMAI -->
+<div class="section" id="patarimai">
+  <div class="section-head">
+    <div class="section-title">Patarimai ir gudrybės</div>
+  </div>
+  <div class="tips-grid">
+    <div class="tip-card">
+      <div class="tip-num">01</div>
+      <div class="tip-title">Česnakinė alyva</div>
+      <div class="tip-body">Naudok vietoj česnako. Alyvuogių aliejus + česnako griežinėliai 24h, po to česnako išimk. Skonis išlieka, FODMAP - ne. Galima nusipirkti parduotuvėse.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-num">02</div>
+      <div class="tip-title">Mėsa iš vakaro</div>
+      <div class="tip-body">Vištieną arba jautieną išvirk vakare. Ryte sumuštinis paruoštas per 5 min. Laikosi šaldytuve 3-4 dienas.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-num">03</div>
+      <div class="tip-title">Pomidorų padažas</div>
+      <div class="tip-body">Visada patikrink sudėtį. Dažnas ingredientas: svogūnas arba česnakas - tokie netinka. Rinkis tik pomidorai + aliejus + druska.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-num">04</div>
+      <div class="tip-title">Termosas į darbą</div>
+      <div class="tip-body">Jautienos troškinys ir vištienos sriuba puikiai tinka termosui. Pagamink vakarą, ryte supilk - pietūs be mikrobangų.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-num">05</div>
+      <div class="tip-title">Alkoholis</div>
+      <div class="tip-body">Geriausias pasirinkimas: sausas vynas, šviesus alus, gryni stiprūs gėrimai su vandeniu ar toniku. Vengti: saldinti kokteiliai, cider, vaisių sulčių bazė - daug cukrų.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-num">06</div>
+      <div class="tip-title">Vanduo</div>
+      <div class="tip-body">Nuo 1-1.5L eiti link 2L per dieną. Su antidepresantais ir kontraceptikais hidratacija ypač svarbi.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-num">07</div>
+      <div class="tip-title">Magnis</div>
+      <div class="tip-body">Antidepresantai mažina magnio kiekį. Šokoladas 85%+, moliūgų sėklos, špinatai - geriausi maisto šaltiniai. Arba papildai vakare.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-num">08</div>
+      <div class="tip-title">Valgymo tempas</div>
+      <div class="tip-body">Lėtas kramtymas mažina pūtimą - mažiau oro praryjama. Ypač svarbu su mėsa ir duona.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-num">09</div>
+      <div class="tip-title">Avokadas - dozė svarbu</div>
+      <div class="tip-body">Pusė avokado = mažas FODMAP ir tinka. Visas avokadas - per daug fruktozės ir gali sukelti simptomus.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-num">10</div>
+      <div class="tip-title">Arbata po valgio</div>
+      <div class="tip-body">Imbieras arba mėta po valgio padeda virškinimui. Geriau nei juoda arbata, kuri dirgina tuščią skrandį.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-num">11</div>
+      <div class="tip-title">Dešra ir kumpis</div>
+      <div class="tip-body">Prieš perkant - patikrink sudėtį. Vengti: svogūnų milteliai, česnako milteliai, dekstrozė, inulinas. Gera dešra: mėsa + druska + prieskoniai.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-num">12</div>
+      <div class="tip-title">Prieš gerant alkoholį</div>
+      <div class="tip-body">Suvalgyti baltymų (kiaušinis, sūris, mėsa) prieš geriant. Lėtina alkoholio įsisavinimą ir mažina pūtimą po.</div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUKTAI -->
+<div class="section" id="produktai">
+  <div class="section-head">
+    <div class="section-title">Produktai</div>
+  </div>
+  <div class="two-col" style="margin-bottom:20px">
+    <div class="list-card">
+      <h4 class="red">Vengti</h4>
+      <div class="list-row">Svogūnai <span>didelis FODMAP</span></div>
+      <div class="list-row">Česnakai <span>didelis FODMAP</span></div>
+      <div class="list-row">Kopūstai, brokoliai, žiediniai <span>didelis FODMAP</span></div>
+      <div class="list-row">Pupelės, lęšiai, avinžirniai <span>didelis FODMAP</span></div>
+      <div class="list-row">Saldumynai ir miltiniai <span>asmeninė reakcija</span></div>
+      <div class="list-row">Obuoliai, kriaušės, mangai <span>didelis FODMAP</span></div>
+      <div class="list-row">Pienas dideliais kiekiais <span>tikrinti reakciją</span></div>
+      <div class="list-row">Svogūnų / česnako milteliai <span>etiketėse</span></div>
+    </div>
+    <div class="list-card">
+      <h4 class="green">Tinka</h4>
+      <div class="list-row">Mėsa - jautiena, vištiena, kiauliena <span>be apribojimų</span></div>
+      <div class="list-row">Žuvis - lašiša, upėtakis <span>be apribojimų</span></div>
+      <div class="list-row">Kiaušiniai <span>be apribojimų</span></div>
+      <div class="list-row">Sūriai - čederis, feta, brie <span>maža laktazė</span></div>
+      <div class="list-row">Morkos, paprika, cukinija, špinatai <span>mažas FODMAP</span></div>
+      <div class="list-row">Bulvės, ryžiai <span>be apribojimų</span></div>
+      <div class="list-row">Avokadas (½) <span>mažas FODMAP</span></div>
+      <div class="list-row">Braškės, mėlynės, vynuogės <span>mažas FODMAP</span></div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:20px">
+    <div class="alco-card">
+      <div>
+        <div class="alco-title">Alkoholis - tinka</div>
+        <div class="alco-item">Sausas raudonas vynas <span class="ok">gerai</span></div>
+        <div class="alco-item">Sausas baltas vynas <span class="ok">gerai</span></div>
+        <div class="alco-item">Šviesus alus (iki 330ml) <span class="ok">gerai</span></div>
+        <div class="alco-item">Degtinė + vanduo / tonik <span class="ok">gerai</span></div>
+        <div class="alco-item">Džinas + tonik <span class="ok">gerai</span></div>
+      </div>
+      <div>
+        <div class="alco-title">Alkoholis - vengti</div>
+        <div class="alco-item">Vaisių kokteiliai <span class="bad">daug FODMAP</span></div>
+        <div class="alco-item">Cider <span class="bad">sorbitolis</span></div>
+        <div class="alco-item">Saldinti likeriai <span class="bad">fruktozė</span></div>
+        <div class="alco-item">Kokteiliai su sulčių baze <span class="bad">daug cukrų</span></div>
+        <div class="alco-item">Tamsus alus dideliais kiekiais <span class="bad">tikrinti</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-head" style="margin-top:28px">
+    <div class="section-title" style="font-size:20px">Papildai</div>
+    <div class="section-sub">rekomenduojami su kontraceptikais ir antidepresantais</div>
+  </div>
+  <div class="supps-grid">
+    <div class="supp-card">
+      <div class="supp-name">Magnis</div>
+      <div class="supp-why">Antidepresantai mažina kiekį. Padeda virškinimui ir miegui.</div>
+      <div class="supp-food">Špinatai · moliūgų sėklos · šokoladas 85%+</div>
+    </div>
+    <div class="supp-card">
+      <div class="supp-name">B12 vitaminas</div>
+      <div class="supp-why">Kontraceptikai mažina įsisavinimą.</div>
+      <div class="supp-food">Mėsa · kiaušiniai · sūriai ✓ (jau valgai)</div>
+    </div>
+    <div class="supp-card">
+      <div class="supp-name">Cinkas</div>
+      <div class="supp-why">Kontraceptikai mažina kiekį.</div>
+      <div class="supp-food">Jautiena · moliūgų sėklos</div>
+    </div>
+    <div class="supp-card">
+      <div class="supp-name">Probiotikai</div>
+      <div class="supp-why">Gerina žarnyno florą. Ypač svarbu su vaistais.</div>
+      <div class="supp-food">Natūralus jogurtas · rūgštus kopūstas (mažas kiekis)</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- DIENYNAS -->
+<div class="section" id="dienynas">
+  <div class="section-head">
+    <div class="section-title">Dienynas</div>
+    <div class="section-sub">Pildyk po kiekvieno valgio - AI pasakys kas veikia ir kas ne</div>
+  </div>
+  <div class="diary-grid">
+
+    <div class="diary-form">
+      <h4>Naujas įrašas</h4>
+
+      <div class="d-form-row">
+        <div class="d-label">Kada?</div>
+        <div class="chip-group" id="dTime">
+          <div class="d-chip time" onclick="pickOne(this,'dTime')">Rytą</div>
+          <div class="d-chip time" onclick="pickOne(this,'dTime')">Po pietų</div>
+          <div class="d-chip time" onclick="pickOne(this,'dTime')">Vakare</div>
+          <div class="d-chip time" onclick="pickOne(this,'dTime')">Naktį</div>
+        </div>
+      </div>
+
+      <div class="d-form-row">
+        <div class="d-label">Ką valgei?</div>
+        <div class="chip-group" id="dMeals">
+          <div class="d-chip meal" onclick="togChipM(this)">Kiaušinienė</div>
+          <div class="d-chip meal" onclick="togChipM(this)">Sumuštinis</div>
+          <div class="d-chip meal" onclick="togChipM(this)">Vištiena</div>
+          <div class="d-chip meal" onclick="togChipM(this)">Jautiena</div>
+          <div class="d-chip meal" onclick="togChipM(this)">Kiauliena</div>
+          <div class="d-chip meal" onclick="togChipM(this)">Žuvis</div>
+          <div class="d-chip meal" onclick="togChipM(this)">Salotos</div>
+          <div class="d-chip meal" onclick="togChipM(this)">Troškinys</div>
+          <div class="d-chip meal" onclick="togChipM(this)">Sriuba</div>
+          <div class="d-chip meal" onclick="togChipM(this)">Sūris / užkandžiai</div>
+          <div class="d-chip meal" onclick="togChipM(this)">Alkoholis</div>
+          <div class="d-chip meal" onclick="togChipM(this)">Kita</div>
+        </div>
+      </div>
+
+      <div class="d-form-row">
+        <div class="d-label">Kaip jauteisi bendrąja prasme?</div>
+        <div class="chip-group" id="dMood">
+          <div class="d-chip mood" onclick="pickOne(this,'dMood')">Puikiai</div>
+          <div class="d-chip mood" onclick="pickOne(this,'dMood')">Gerai</div>
+          <div class="d-chip mood" onclick="pickOne(this,'dMood')">Normaliai</div>
+          <div class="d-chip mood" onclick="pickOne(this,'dMood')">Blogai</div>
+          <div class="d-chip mood" onclick="pickOne(this,'dMood')">Labai blogai</div>
+        </div>
+      </div>
+
+      <div class="d-form-row">
+        <div class="d-label">Simptomai po valgio</div>
+        <div class="chip-group" id="dSyms">
+          <div class="d-chip sym ok" onclick="togChipS(this)">Jokių</div>
+          <div class="d-chip sym" onclick="togChipS(this)">Pūtimas</div>
+          <div class="d-chip sym" onclick="togChipS(this)">Rėmuo</div>
+          <div class="d-chip sym" onclick="togChipS(this)">Pilvo skausmas</div>
+          <div class="d-chip sym" onclick="togChipS(this)">Sunkumas</div>
+          <div class="d-chip sym" onclick="togChipS(this)">Pykinimas</div>
+          <div class="d-chip sym" onclick="togChipS(this)">Nuovargis</div>
+          <div class="d-chip sym" onclick="togChipS(this)">Viduriavimas</div>
+          <div class="d-chip sym" onclick="togChipS(this)">Užkietėjimas</div>
+        </div>
+      </div>
+
+      <div class="d-form-row">
+        <div class="d-label">Simptomai pasireiškė</div>
+        <div class="chip-group" id="dDelay">
+          <div class="d-chip time" onclick="pickOne(this,'dDelay')">Iškart</div>
+          <div class="d-chip time" onclick="pickOne(this,'dDelay')">Po 30 min</div>
+          <div class="d-chip time" onclick="pickOne(this,'dDelay')">Po 1-2 val</div>
+          <div class="d-chip time" onclick="pickOne(this,'dDelay')">Po 2+ val</div>
+          <div class="d-chip time" onclick="pickOne(this,'dDelay')">Nereikia</div>
+        </div>
+      </div>
+
+      <div class="d-form-row">
+        <div class="d-label">Pastabos</div>
+        <textarea class="d-textarea" id="dNote" placeholder="Pvz: valgiau greitai, buvo stresas, negeriau vandens..."></textarea>
+      </div>
+
+      <button class="d-save-btn" onclick="saveEntry()">Išsaugoti</button>
+    </div>
+
+    <div>
+      <div class="diary-log">
+        <h4>Įrašai <span id="entryCount" style="font-size:11px;color:var(--muted);font-weight:400"></span></h4>
+        <div id="logList">
+          <div class="log-empty">Įrašų dar nėra.<br>Pildyk po kiekvieno valgio arba vakare<br>kai prisimeni kaip jauteisi per dieną.</div>
+        </div>
+      </div>
+      <button class="analyze-btn" id="analyzeBtn" onclick="runAnalysis()">Analizuoti su AI ↗</button>
+      <div class="analysis-box" id="analysisBox" style="display:none">
+        <h4 id="analysisTitle">Analizė</h4>
+        <div id="analysisContent" class="analysis-content"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- RECIPE MODAL -->
+<div class="modal-bg" id="recipeModal" onclick="closeModal(event)">
+  <div class="modal" id="modalContent">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3 id="modalTitle"></h3>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+const recipes = {
+  'kiausiniene-paprika': {
+    name: 'Kiaušinienė su paprika ir feta',
+    time: '10 min', meal: 'Pusryčiai',
+    ings: ['3 kiaušiniai','raudona paprika','feta sūris','sviestas','druska, pipirai'],
+    steps: ['Išplak kiaušinius su druska ir pipirais','Svieste pakepink supjaustytą papriką 2 min','Supilk kiaušinius, maišyk ant vidutinės ugnies','Prieš išjungiant subyrink fetą'],
+    tip: 'Keisti galima: cukinija, špinatai, pomidoras'
+  },
+  'kiausiniai-kumpis': {
+    name: 'Kiaušiniai su kumpio griežinėliais',
+    time: '8 min', meal: 'Pusryčiai',
+    ings: ['2-3 kiaušiniai','kumpio griežinėliai','agurkas'],
+    steps: ['Sausoje keptuvėje apkepink kumpio griežinėlius 1-2 min','Toje pačioje keptuvėje kepk kiaušinius','Šalia patiekti agurką'],
+    tip: 'Rinkis kumpį be cukraus sudėtyje'
+  },
+  'kiausiniai-spinatai': {
+    name: 'Kiaušiniai su špinatais ir sūriu',
+    time: '10 min', meal: 'Pusryčiai',
+    ings: ['3 kiaušiniai','šviežių špinatų sauja','čederis arba ementalis','sviestas','druska'],
+    steps: ['Svieste pakepink špinatų lapus 1 min kol suvysta','Supilk išplaktus kiaušinius','Maišyk ant vidutinės ugnies kol sukietėja','Prieš patiekiant užbarstyk tarkuotą sūrį'],
+    tip: 'Špinatai - mažas FODMAP, daug magnio'
+  },
+  'sumushtinis-vistiena': {
+    name: 'Sumuštinis su vištiena ir čederiu',
+    time: '5 min', meal: 'Pusryčiai',
+    ings: ['2 duonos riekės','virta vištienos krūtinėlė','čederio sūris','garstyčios','agurkas'],
+    steps: ['Ant abiejų duonos riekių užtepk garstyčias','Dėk plonais gabalėliais vištieną','Uždėk čederio ir agurkų žiedus'],
+    tip: 'Vištieną išvirk vakare - rytas bus greitas'
+  },
+  'sumushtinis-desra': {
+    name: 'Sumuštinis su jautienos dešra',
+    time: '5 min', meal: 'Pusryčiai',
+    ings: ['2 duonos riekės','jautienos dešra','garstyčios','pomidoras'],
+    steps: ['Dešrą supjaustyti rateliais, 2 min pakepinti','Ant duonos užtepk garstyčias','Dėk dešrą ir pomidoro žiedus'],
+    tip: 'Sudėtį patikrink etikėtėje - be cukraus ir svogūnų miltelių'
+  },
+  'vistiena-morkos': {
+    name: 'Vištiena su morkomis ir ryžiais',
+    time: '30 min', meal: 'Pietūs',
+    ings: ['vištienos krūtinėlė','morkos','ryžiai','alyvuogių aliejus','česnakinė alyva','druska'],
+    steps: ['Ryžius virti atskirai pagal instrukciją','Vištieną supjaustyti gabaliukais, kepti aliejuje 6-8 min','Sudėti supjaustytas morkas, kepti dar 5 min','Pagardinti druska, česnakinės alyvos lašas prieš patiekiant'],
+    tip: 'Česnakinė alyva: alyvuogių aliejus + česnako griežinėliai 24h, česnaką išimk'
+  },
+  'vistiena-ryžiai-cukinija': {
+    name: 'Vištiena su cukinija ir ryžiais',
+    time: '30 min', meal: 'Pietūs',
+    ings: ['vištienos krūtinėlė','cukinija','ryžiai','alyvuogių aliejus','citrina','raudonėliai'],
+    steps: ['Ryžius virti atskirai','Vištieną supjaustyti, kepti aliejuje 6 min','Cukinija supjaustyti pusmėnuliais, sudėti kepti dar 5 min','Pagardinti raudonėliais, citrinos sultis prieš patiekiant'],
+    tip: 'Cukinija - mažas FODMAP, puikiai dera su vištiena'
+  },
+  'jautiena-troskinys': {
+    name: 'Jautienos troškinys su bulvėmis',
+    time: '40 min', meal: 'Pietūs',
+    ings: ['jautiena (mentė arba šonkauliukai)','bulvės','morkos','lauro lapas','druska, juodieji pipirai'],
+    steps: ['Jautieną supjaustyti kubeliais, apkepinti iš visų pusių iki rudos spalvos','Sudėti supjaustytas bulves ir morkas','Užpilti vandeniu iki pusės, dėti lauro lapą','Virti ant mažos ugnies 30 min su dangčiu'],
+    tip: 'Pagamink vakarą - kitą dieną skonis dar geresnis. Puikiai tinka termosui.'
+  },
+  'jautiena-ryžiai': {
+    name: 'Troškinta jautiena su ryžiais',
+    time: '40 min', meal: 'Pietūs',
+    ings: ['malta arba supjaustyta jautiena','ryžiai','paprika','pomidorų padažas (be svogūnų)','česnakinė alyva','druska'],
+    steps: ['Ryžius virti atskirai','Jautieną kepti kol paruduos - 8-10 min','Sudėti papriką, kepti 3 min','Supilti pomidorų padažą, troškinti 10 min ant mažos ugnies','Česnakinės alyvos lašas prieš patiekiant'],
+    tip: 'Pomidorų padažą rinkis be svogūnų - patikrink sudėtį'
+  },
+  'lasisha-bulves': {
+    name: 'Lašiša su bulvių koše ir špinatais',
+    time: '20 min', meal: 'Pietūs / Vakarienė',
+    ings: ['lašišos filė (180-200g)','bulvės','špinatai','sviestas','citrina','druska'],
+    steps: ['Bulves išvirti ir sugrūsti su sviestu ir druska iki kremingos konsistencijos','Lašišą kepti svieste 4-5 min iš kiekvienos pusės - viduriukas turi likti šiek tiek rausvas','Špinatai - 2 min su sviesto lašu kol suvysta','Apšlakstyti citrinos sultimis prieš patiekiant'],
+    tip: 'Špinatai - mažas FODMAP, daug magnio ir geležies'
+  },
+  'malta-keptuve': {
+    name: 'Malta jautiena su paprika ir ryžiais',
+    time: '25 min', meal: 'Pietūs / Vakarienė',
+    ings: ['malta jautiena','raudona paprika','ryžiai','pomidorų padažas (be svogūnų)','česnakinė alyva','druska, pipirai'],
+    steps: ['Ryžius virti atskirai','Maltą mėsą kepti keptuvėje kol paruduos - apie 8 min','Sudėti supjaustytą papriką, kepti 3 min','Supilti pomidorų padažą, virti 5 min ant mažos ugnies','Česnakinės alyvos lašas prieš patiekiant'],
+    tip: 'Pomidorų padažą rinkis be svogūnų - patikrink sudėtį'
+  },
+  'upetakis-bulves': {
+    name: 'Upėtakis su bulvėmis ir morkomis',
+    time: '25 min', meal: 'Pietūs',
+    ings: ['upėtakio filė','bulvės','morkos','sviestas','krapai','citrina'],
+    steps: ['Bulves ir morkas virti kartu iki minkštumo - 12-15 min','Upėtakį kepti svieste 3-4 min iš kiekvienos pusės','Patiekti su daržovėmis, šviežiais krapais ir citrinos skiltele'],
+    tip: 'Krapai - be FODMAP, suteikia šviežumo'
+  },
+  'vistiena-salotos': {
+    name: 'Vištienos salotos su avokadu',
+    time: '15 min', meal: 'Pietūs',
+    ings: ['virta vištienos krūtinėlė','avokadas (puse)','raudona paprika','čederis arba feta','alyvuogių aliejus','citrina'],
+    steps: ['Vištieną supjaustyti arba sudraskyt gabalėliais','Avokadą supjaustyti kubeliais','Papriką supjaustyti juostelėmis','Sumaišyti viską su aliejumi, pagardinti druska ir citrinos sultimis'],
+    tip: 'Pusė avokado = mažas FODMAP. Visas avokadas - per daug fruktozės.'
+  },
+  'upetakis-morkos': {
+    name: 'Upėtakis su krapais ir morkomis',
+    time: '20 min', meal: 'Vakarienė',
+    ings: ['upėtakio filė (180g)','morkos','sviestas','šviežių krapų sauja','citrina','druska'],
+    steps: ['Morkas supjaustyti rateliais, virti kol pusiau minkštos - 8 min','Upėtakį pagardinti druska, kepti svieste 3-4 min iš kiekvienos pusės','Patiekti su morkomis, užbarstyt krapus, šalia citrinos skiltele'],
+    tip: 'Krapai - be FODMAP, tinka drąsiai'
+  },
+  'vistiena-orkaiteje': {
+    name: 'Vištiena orkaitėje su daržovėmis',
+    time: '45 min', meal: 'Vakarienė',
+    ings: ['vištienos šlaunelės (4 vnt)','morkos','cukinija','bulvės','alyvuogių aliejus','raudonėliai, rozmarinas'],
+    steps: ['Orkaitę įkaitinti iki 200°C','Viską supjaustyti ir sudėti į kepimo skardą','Apšlakstyti aliejumi, pagardinti druska, raudonėliais, rozmarinu','Kepti 35-40 min kol vištiena auksinė, daržovės minkštos'],
+    tip: 'Marinuok ryte - vakare tik į orkaitę'
+  },
+  'jautiena-kepta': {
+    name: 'Jautienos kepsnys su bulvių koše',
+    time: '30 min', meal: 'Vakarienė',
+    ings: ['jautienos filė arba entrekote (200g)','bulvės','sviestas','rozmarinas','druska, rupūs pipirai'],
+    steps: ['Mėsą išimti iš šaldytuvo 15 min prieš kepant - svarbu','Keptuvę labai gerai įkaitinti, sudėti sviestą su rozmarinu','Kepti po 3-4 min iš kiekvienos pusės','Palikti pailsėti 5 min ant lentelės prieš pjaustant','Bulves išvirti ir grūsti su sviestu, druska iki kremingumo'],
+    tip: '5 min poilsis po kepimo - mėsa sultingesnė. Nesuleisk sulčių iš karto.'
+  },
+  'vistiena-sriuba': {
+    name: 'Vištienos sriuba su morkomis',
+    time: '35 min', meal: 'Vakarienė',
+    ings: ['vištienos krūtinėlė arba šlaunelė','morkos','salierų stiebai (ne šaknis)','šviežių krapų sauja','druska'],
+    steps: ['Vištieną ir morkas užpilti šaltu vandeniu, užvirti','Virti ant mažos ugnies 25 min','Išimti vištieną, sudraskyt gabalėliais ir grąžinti į sultinį','Pagardinti druska, subyrinti krapus prieš patiekiant'],
+    tip: 'Salierų stiebai (ne šaknis) - mažas FODMAP'
+  },
+  'kiauliena-orkaiteje': {
+    name: 'Kiauliena orkaitėje su daržovėmis',
+    time: '45 min', meal: 'Vakarienė',
+    ings: ['kiaulienos sprandinė arba nugarinė','bulvės','morkos','alyvuogių aliejus','garstyčios','raudonėliai, druska'],
+    steps: ['Mėsą ištepti garstyčiomis, pagardinti druska ir raudonėliais','Bulves ir morkas supjaustyti, sudėti į kepimo skardą','Uždėti mėsą ant daržovių, apšlakstyti aliejumi','Kepti 200°C 35-40 min'],
+    tip: 'Garstyčios suteikia traškią plutelę ir skonį be papildomų prieskonių'
+  },
+  'kiauliena-garstycios': {
+    name: 'Kiauliena su garstyčių marinate',
+    time: '35 min', meal: 'Vakarienė',
+    ings: ['kiaulienos nugarinė (200g)','pilni garstyčiai','alyvuogių aliejus','rozmarinas','druska, pipirai','bulvės arba cukinija garnyrui'],
+    steps: ['Mėsą ištepti garstyčių ir aliejaus mišiniu, palikti 10 min','Keptuvę gerai įkaitinti, kepti po 4-5 min iš kiekvienos pusės','Perkelti į orkaitę 180°C 10 min (jei stora)',  'Garnyras: cukinija arba bulvės kepti toje pačioje keptuvėje'],
+    tip: 'Pilni garstyčiai su sėklomis suteikia geriausią plutelę'
+  }
+};
+
+function openRecipe(id) {
+  const r = recipes[id]; if (!r) return;
+  document.getElementById('modalTitle').textContent = r.name;
+  document.getElementById('modalBody').innerHTML = `
+    <div style="display:flex;gap:8px;margin-bottom:16px">
+      <span style="font-size:11px;padding:3px 10px;border-radius:20px;background:var(--sage-light);color:var(--sage)">${r.meal}</span>
+      <span style="font-size:11px;padding:3px 10px;border-radius:20px;background:var(--warm);color:var(--muted)">${r.time}</span>
+    </div>
+    <div style="margin-bottom:14px">
+      <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Ingredientai</div>
+      ${r.ings.map(i=>`<div style="font-size:13px;padding:5px 0;border-bottom:1px solid var(--border);color:var(--text)">${i}</div>`).join('')}
+    </div>
+    <div style="margin-bottom:14px">
+      <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Žingsniai</div>
+      <ol style="padding-left:16px">${r.steps.map(s=>`<li style="font-size:13px;line-height:1.8;color:var(--text)">${s}</li>`).join('')}</ol>
+    </div>
+    <div style="background:var(--sage-light);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--sage)">${r.tip}</div>
+  `;
+  document.getElementById('recipeModal').classList.add('open');
+}
+
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('recipeModal')) {
+    document.getElementById('recipeModal').classList.remove('open');
+  }
+}
+
+function showWeek(n, el) {
+  document.querySelectorAll('.week-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.wtab').forEach(t => t.classList.remove('on'));
+  document.getElementById('w'+n).classList.add('active');
+  el.classList.add('on');
+}
+
+function filterR(el, cat) {
+  document.querySelectorAll('.filter-bar .fb').forEach(b => b.classList.remove('on'));
+  el.classList.add('on');
+  document.querySelectorAll('.recipe-card').forEach(c => {
+    c.style.display = (cat === 'all' || c.dataset.cat === cat) ? '' : 'none';
+  });
+}
+
+function togR(btn) {
+  const s = btn.closest('.rc-body').querySelector('.rc-steps');
+  const open = s.style.display === 'block';
+  s.style.display = open ? 'none' : 'block';
+  btn.textContent = open ? 'receptas' : 'uždaryti';
+}
+</script>
+<script>
+
+// DIARY
+let entries = JSON.parse(localStorage.getItem('diaryEntries') || '[]');
+
+function pickOne(el, groupId) {
+  document.querySelectorAll('#' + groupId + ' .d-chip').forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel');
+}
+function togChipM(el) { el.classList.toggle('sel'); }
+function togChipS(el) {
+  if (el.textContent === 'Jokių') {
+    document.querySelectorAll('#dSyms .d-chip').forEach(c => c.classList.remove('sel'));
+    el.classList.add('sel');
+  } else {
+    document.querySelector('#dSyms .d-chip.ok').classList.remove('sel');
+    el.classList.toggle('sel');
+  }
+}
+
+function saveEntry() {
+  const time = document.querySelector('#dTime .sel')?.textContent || '';
+  const mood = document.querySelector('#dMood .sel')?.textContent || '';
+  const meals = [...document.querySelectorAll('#dMeals .sel')].map(c => c.textContent);
+  const syms  = [...document.querySelectorAll('#dSyms .sel')].map(c => c.textContent);
+  const delay = document.querySelector('#dDelay .sel')?.textContent || '';
+  const note  = document.getElementById('dNote').value.trim();
+
+  if (!time || !mood || meals.length === 0) {
+    alert('Užpildyk bent: kada, ką valgei ir kaip jauteisi.');
+    return;
+  }
+
+  const entry = {
+    id: Date.now(),
+    date: new Date().toLocaleDateString('lt-LT', {weekday:'short', month:'short', day:'numeric'}),
+    time, mood, meals, syms, delay, note
+  };
+  entries.unshift(entry);
+  localStorage.setItem('diaryEntries', JSON.stringify(entries));
+  renderLog();
+  resetForm();
+}
+
+function deleteEntry(id) {
+  entries = entries.filter(e => e.id !== id);
+  localStorage.setItem('diaryEntries', JSON.stringify(entries));
+  renderLog();
+}
+
+function resetForm() {
+  document.querySelectorAll('.d-chip.sel').forEach(c => c.classList.remove('sel'));
+  document.getElementById('dNote').value = '';
+}
+
+function renderLog() {
+  const list = document.getElementById('logList');
+  const count = document.getElementById('entryCount');
+  const analyzeBtn = document.getElementById('analyzeBtn');
+  count.textContent = entries.length > 0 ? '(' + entries.length + ')' : '';
+  analyzeBtn.style.display = entries.length >= 3 ? 'inline-block' : 'none';
+
+  if (entries.length === 0) {
+    list.innerHTML = '<div class="log-empty">Įrašų dar nėra.<br>Pildyk po kiekvieno valgio arba vakare<br>kai prisimeni kaip jauteisi per dieną.</div>';
+    return;
+  }
+
+  const moodIcon = {'Puikiai':'🟢','Gerai':'🟡','Normaliai':'⚪','Blogai':'🟠','Labai blogai':'🔴'};
+
+  list.innerHTML = entries.slice(0,20).map(e => `
+    <div class="log-entry">
+      <div class="log-meta">
+        ${e.date} &middot; ${e.time}
+        <button class="log-del" onclick="deleteEntry(${e.id})">✕</button>
+      </div>
+      <div class="log-tags">
+        ${e.meals.map(m => `<span class="log-tag meal">${m}</span>`).join('')}
+        <span class="log-tag mood">${moodIcon[e.mood] || ''} ${e.mood}</span>
+        ${e.syms.map(s => `<span class="log-tag ${s === 'Jokių' ? 'sym-ok' : 'sym-bad'}">${s}</span>`).join('')}
+        ${e.delay && e.delay !== 'Nereikia' && e.syms[0] !== 'Jokių' ? `<span class="log-tag mood">${e.delay}</span>` : ''}
+      </div>
+      ${e.note ? `<div class="log-note">"${e.note}"</div>` : ''}
+    </div>
+  `).join('');
+}
+
+async function runAnalysis() {
+  const box = document.getElementById('analysisBox');
+  const content = document.getElementById('analysisContent');
+  const title = document.getElementById('analysisTitle');
+  box.style.display = 'block';
+  title.innerHTML = '<span class="spinner"></span> Analizuojama...';
+  content.innerHTML = '';
+
+  const summary = entries.slice(0,30).map((e,i) =>
+    `${i+1}. ${e.date} ${e.time}: valgė [${e.meals.join(', ')}], jautėsi: ${e.mood}, simptomai: [${e.syms.join(', ')}]${e.delay && e.delay !== 'Nereikia' ? ', praėjus: ' + e.delay : ''}${e.note ? ', pastaba: ' + e.note : ''}`
+  ).join('\n');
+
+  const prompt = `Tu esi mitybos specialistė kuri padeda gydytojai su low-FODMAP mityba. Ji kenčia nuo pūtimo ir virškinimo problemų. Išanalizuok jos mitybos dienoraštį ir pateik konkrečią, praktiška analizę lietuvių kalba.
+
+Dienoraščio įrašai:
+${summary}
+
+Pateik trumpą analizę tokia struktūra (be pavadinimų, tiesiog tekstas):
+1. Kas veikia gerai - kokius patiekalus toleruoja
+2. Kas sukelia problemas - kokie patiekalai ar laikai blogina savijautą
+3. Pastebėjimai apie laiką ar modelius
+4. 2-3 konkretūs patarimai ką keisti
+
+Rašyk trumpai, aiškiai, be emocinio kalbėjimo. Tik faktai ir patarimai.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{role: 'user', content: prompt}]
+      })
+    });
+    const data = await res.json();
+    const text = data.content?.[0]?.text || 'Nepavyko gauti analizės.';
+    title.textContent = 'Analizė';
+    content.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
+  } catch(e) {
+    title.textContent = 'Analizė';
+    content.innerHTML = 'Klaida jungiantis prie AI. Bandyk vėliau.';
+  }
+}
+
+renderLog();
+
+</script>
+</body>
+</html>
